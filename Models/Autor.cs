@@ -2,18 +2,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication1.Models;
 
-public class Author
+public class Autor
 {
     public int Id { get; set; }
 
     [Required]
     [MaxLength(50)]
-    public string FirstName { get; set; }
+    public string Imie { get; set; }
 
     [Required]
     [MaxLength(50)]
-    public string LastName { get; set; }
+    public string Nazwisko { get; set; }
 
     // Relacja N:M
-    public ICollection<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
+    public ICollection<KsiazkaAutor> KsiazkaAutorzy { get; set; } = new List<KsiazkaAutor>();
 }

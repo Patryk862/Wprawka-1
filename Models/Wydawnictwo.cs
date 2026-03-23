@@ -2,14 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication1.Models;
 
-public class Publisher
+public class Wydawnictwo
 {
     public int Id { get; set; }
 
     [Required]
     [MaxLength(100)]
-    public string Name { get; set; }
+    public string Nazwa { get; set; }
 
     // Relacja 1:N
-    public ICollection<Book> Books { get; set; } = new List<Book>();
+    public ICollection<Ksiazka> Ksiazki { get; set; } = new List<Ksiazka>();
 }

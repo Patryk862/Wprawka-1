@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Rejestracja kontekstu bazy danych z użyciem Connection Stringa
-builder.Services.AddDbContext<LibraryContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryDb")));
+builder.Services.AddDbContext<BibliotekaContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Ksiegarnia")));
 
 var app = builder.Build();
 

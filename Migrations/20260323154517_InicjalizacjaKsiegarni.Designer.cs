@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Models;
 
@@ -9,10 +10,12 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Migrations
 {
-    [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(BibliotekaContext))]
+    [Migration("20260323154517_InicjalizacjaKsiegarni")]
+    partial class InicjalizacjaKsiegarni
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +24,7 @@ namespace WebApplication1.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebApplication1.Models.Author", b =>
+            modelBuilder.Entity("WebApplication1.Models.Autor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,22 +32,22 @@ namespace WebApplication1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("Imie")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("Nazwisko")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Autorzy");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Book", b =>
+            modelBuilder.Entity("WebApplication1.Models.Ksiazka", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,37 +55,37 @@ namespace WebApplication1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PublisherId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("Tytul")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("WydawnictwoId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PublisherId");
+                    b.HasIndex("WydawnictwoId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Ksiazki");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.BookAuthor", b =>
+            modelBuilder.Entity("WebApplication1.Models.KsiazkaAutor", b =>
                 {
-                    b.Property<int>("BookId")
+                    b.Property<int>("KsiazkaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("AutorId")
                         .HasColumnType("int");
 
-                    b.HasKey("BookId", "AuthorId");
+                    b.HasKey("KsiazkaId", "AutorId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AutorId");
 
-                    b.ToTable("BookAuthors");
+                    b.ToTable("KsiazkaAutorzy");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Publisher", b =>
+            modelBuilder.Entity("WebApplication1.Models.Wydawnictwo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -90,59 +93,59 @@ namespace WebApplication1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nazwa")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Wydawnictwa");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Book", b =>
+            modelBuilder.Entity("WebApplication1.Models.Ksiazka", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Publisher", "Publisher")
-                        .WithMany("Books")
-                        .HasForeignKey("PublisherId")
+                    b.HasOne("WebApplication1.Models.Wydawnictwo", "Wydawnictwo")
+                        .WithMany("Ksiazki")
+                        .HasForeignKey("WydawnictwoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Publisher");
+                    b.Navigation("Wydawnictwo");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.BookAuthor", b =>
+            modelBuilder.Entity("WebApplication1.Models.KsiazkaAutor", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Author", "Author")
-                        .WithMany("BookAuthors")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("WebApplication1.Models.Autor", "Autor")
+                        .WithMany("KsiazkaAutorzy")
+                        .HasForeignKey("AutorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.Book", "Book")
-                        .WithMany("BookAuthors")
-                        .HasForeignKey("BookId")
+                    b.HasOne("WebApplication1.Models.Ksiazka", "Ksiazka")
+                        .WithMany("KsiazkaAutorzy")
+                        .HasForeignKey("KsiazkaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.Navigation("Autor");
 
-                    b.Navigation("Book");
+                    b.Navigation("Ksiazka");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Author", b =>
+            modelBuilder.Entity("WebApplication1.Models.Autor", b =>
                 {
-                    b.Navigation("BookAuthors");
+                    b.Navigation("KsiazkaAutorzy");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Book", b =>
+            modelBuilder.Entity("WebApplication1.Models.Ksiazka", b =>
                 {
-                    b.Navigation("BookAuthors");
+                    b.Navigation("KsiazkaAutorzy");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Publisher", b =>
+            modelBuilder.Entity("WebApplication1.Models.Wydawnictwo", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("Ksiazki");
                 });
 #pragma warning restore 612, 618
         }
